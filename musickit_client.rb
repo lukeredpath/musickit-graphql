@@ -15,12 +15,26 @@ class MusicKitClient
   end
 
   def storefronts
-    fetch_json "storefronts"
+    fetch_response "storefronts"
+  end
+
+  def artist(id:, storefront:)
+    fetch_response "catalog/#{storefront}/artists/#{id}"
   end
 
   private
 
-  def fetch_json(path)
-    @connection.get(path).body
+  def fetch_response(path)
+    ResponseRoot.new(@connection.get(path).body)
+  end
+
+  class ResponseRoot
+    def initialize(json)
+      @json = json
+    end
+
+    def data
+      @json["data"]
+    end
   end
 end

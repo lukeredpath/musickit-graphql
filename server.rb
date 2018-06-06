@@ -4,6 +4,7 @@ require 'rack/contrib'
 
 require_relative 'keygen'
 require_relative 'musickit_client'
+require_relative 'graphql/schema'
 
 keygen = MusicKitTokenGenerator.new(teamID: ENV['MUSICKIT_TEAM_ID'], keyID: ENV['MUSICKIT_KEY_ID'])
 
@@ -25,11 +26,11 @@ class MusicKitGraphQLServer < Sinatra::Base
     json client.storefronts
   end
 
-  get '/graphql' do
+  post '/graphql' do
     json MusicKitSchema.execute(
       params[:query],
       variables: params[:variables],
-      context: { },
+      context: { jwt_token: MUSICKIT_JWT_TOKEN },
     )
   end
 end

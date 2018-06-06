@@ -1,6 +1,6 @@
 require 'graphql'
 require_relative 'query'
 
-class MusicKitSchema < GraphQL::Schema.define
+class MusicKitSchema < GraphQL::Schema
   query QueryType
 end
