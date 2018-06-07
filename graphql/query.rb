@@ -1,17 +1,7 @@
 require 'graphql'
 require_relative 'types'
 
-module MusicKitClientFromContext
-  def client
-    jwt_token = context[:jwt_token]
-    raise RuntimeError.new("JWT token must be passed in the context") unless jwt_token
-    MusicKitClient.new(jwt_token)
-  end
-end
-
 class QueryType < GraphQL::Schema::Object
-  include MusicKitClientFromContext
-
   description "The query root of this schema"
 
   field :artist, Types::Artist, null: true do
