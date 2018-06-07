@@ -12,7 +12,7 @@ class MusicKitTokenGenerator
   def headers
     {
       "alg": 'ES256',
-      "kid": @keyID      
+      "kid": @keyID
     }
   end
 
@@ -24,14 +24,14 @@ class MusicKitTokenGenerator
     }
   end
 
-  def generate_encoded(keyFile:)
-    pem_file = `openssl pkcs8 -nocrypt -in #{keyFile}`
+  def generate_encoded(key_file:)
+    pem_file = `openssl pkcs8 -nocrypt -in #{key_file}`
     private_key = OpenSSL::PKey::EC.new(pem_file)
     JWT.encode payload, private_key, 'ES256', headers
   end
 
-  def decode(encoded_token, keyFile:)
-    pem_file = `openssl pkcs8 -nocrypt -in #{keyFile}`
+  def decode(encoded_token, key_file:)
+    pem_file = `openssl pkcs8 -nocrypt -in #{key_file}`
     private_key = OpenSSL::PKey::EC.new(pem_file)
     public_key = OpenSSL::PKey::EC.new private_key
     public_key.private_key = nil

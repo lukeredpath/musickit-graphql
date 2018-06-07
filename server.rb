@@ -8,7 +8,11 @@ require_relative 'graphql/schema'
 
 keygen = MusicKitTokenGenerator.new(teamID: ENV['MUSICKIT_TEAM_ID'], keyID: ENV['MUSICKIT_KEY_ID'])
 
-MUSICKIT_JWT_TOKEN = keygen.generate_encoded(keyFile: File.expand_path('./keys/AuthKey_2TJQ36CTNQ.p8'))
+unless key_file = Dir['keys/*.p8'].first
+  raise "Could not find a p8 key file in the keys directory!"
+end
+
+MUSICKIT_JWT_TOKEN = keygen.generate_encoded(key_file: key_file)
 
 class MusicKitGraphQLServer < Sinatra::Base
   use Rack::PostBodyContentTypeParser
