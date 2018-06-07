@@ -30,7 +30,7 @@ class MusicKitGraphQLServer < Sinatra::Base
     json MusicKitSchema.execute(
       params[:query],
       variables: params[:variables],
-      context: { jwt_token: MUSICKIT_JWT_TOKEN },
+      context: { gateway: client },
     )
   end
 end

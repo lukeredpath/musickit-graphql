@@ -1,20 +1,7 @@
-class EditorialNotesType < GraphQL::Schema::Object
-  description "Editorial notes, may include XML or special characters"
+require_relative 'types/core'
 
-  field :short, String, null: false
-  field :standard, String, null: false
-end
-
-class ArtistType < GraphQL::Schema::Object
-  description "An artist in the Apple Music catalog"
-
-  class AttributesType < GraphQL::Schema::Object
-    field :name, String, null: false
-    field :url, String, null: false
-    # field :genreNames, [String], null: false
-    field :editorialNotes, ::EditorialNotesType, null: true
-  end
-
-  field :type, String, null: false
-  field :attributes, ArtistType::AttributesType, null: false
+module Types
+  autoload :Artist,         File.join(File.dirname(__FILE__), *%w[types artist])
+  autoload :Album,          File.join(File.dirname(__FILE__), *%w[types album])
+  autoload :EditorialNotes, File.join(File.dirname(__FILE__), *%w[types editorial_notes])
 end

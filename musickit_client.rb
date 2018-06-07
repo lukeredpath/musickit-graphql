@@ -9,7 +9,9 @@ class MusicKitClient
   def initialize(auth_token)
     @connection = Faraday.new(url: API_BASE_URL) do |conn|
       conn.authorization :Bearer, auth_token
-      conn.response :json, :content_type => /\bjson$/
+      conn.response :json,
+        :content_type => /\bjson$/,
+        :parser_options => { :symbolize_names => true }
       conn.adapter Faraday.default_adapter
     end
   end
@@ -18,8 +20,10 @@ class MusicKitClient
     fetch_response "storefronts"
   end
 
-  def artist(id:, storefront:)
-    fetch_response "catalog/#{storefront}/artists/#{id}"
+  def artist(id:, storefront:, include: [])
+    path = "catalog/#{storefront}/artists/#{id}"
+    path += "?include=#{include.join(',')}" if include && !include.empty?
+    fetch_response path
   end
 
   private
@@ -34,7 +38,7 @@ class MusicKitClient
     end
 
     def data
-      @json["data"]
+      @json[:data]
     end
   end
 end

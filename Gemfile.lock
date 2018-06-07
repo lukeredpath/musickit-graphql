@@ -10,6 +10,10 @@ GEM
       thor (~> 0.19.1)
     graphql (1.8.1)
     jwt (2.1.0)
+    metaclass (0.0.4)
+    minitest (5.11.3)
+    mocha (1.5.0)
+      metaclass (~> 0.0.1)
     multi_json (1.13.1)
     multipart-post (2.0.0)
     mustermann (1.0.2)
@@ -43,6 +47,8 @@ DEPENDENCIES
   foreman
   graphql
   jwt
+  minitest
+  mocha
   puma
   rack-contrib
   sinatra
